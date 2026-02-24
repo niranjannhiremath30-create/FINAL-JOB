@@ -3,10 +3,11 @@ JOB NOTIFICATION APP - READY TO USE
 
 TO RUN THE APP:
 ---------------
-1. Double-click RUN.bat
+1. Double-click RUN.bat (starts server and opens browser)
    OR
-2. Double-click app.html to open in your browser
-   OR
-3. Right-click app.html -> Open with -> Your browser
+2. Open terminal: npm run dev
+   Then go to http://localhost:5173
 
-No installation required. No npm. No Node.js. Just open and use.
+Pages:
+- /dashboard - Browse 60 jobs, filter, save, apply
+- /saved - View saved jobs (persists after reload)

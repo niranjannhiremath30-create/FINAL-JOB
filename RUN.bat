@@ -1,2 +1,4 @@
 @echo off
-start "" "%~dp0app.html"
+cd /d "%~dp0"
+start http://localhost:5173
+npm run dev

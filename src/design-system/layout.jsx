@@ -4,15 +4,26 @@
  */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-export function TopBar({ progress, status, statusVariant = 'default' }) {
+export function TopBar({ progress, status, statusVariant = 'default', showNav }) {
   return (
     <header className="top-bar">
-      <div className="top-bar__brand">Job Notification App</div>
+      <div className="top-bar__left">
+        <Link to="/" className="top-bar__brand">Job Notification App</Link>
+        {showNav && (
+          <nav className="top-bar__nav">
+            <Link to="/dashboard" className="top-bar__nav-link">Dashboard</Link>
+            <Link to="/saved" className="top-bar__nav-link">Saved</Link>
+            <Link to="/digest" className="top-bar__nav-link">Digest</Link>
+            <Link to="/settings" className="top-bar__nav-link">Settings</Link>
+          </nav>
+        )}
+      </div>
       {progress != null && (
         <div className="top-bar__progress">{progress}</div>
       )}
-      <div className="top-bar__status">
+      <div className="top-bar__right">
         {status && (
           <span className={`badge badge-${statusVariant === 'default' ? 'status' : statusVariant}`}>
             {status}
