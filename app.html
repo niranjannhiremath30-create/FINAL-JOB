@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Notification App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #F7F6F3;
+      --color-text: #111111;
+      --color-accent: #8B0000;
+      --color-success: #4A5D4A;
+      --color-warning: #8B6914;
+      --color-text-muted: #444444;
+      --color-text-subtle: #666666;
+      --color-border: #D4D2CE;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Source Sans 3', -apple-system, sans-serif;
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 40px;
+      --radius: 6px;
+      --transition: 180ms ease-in-out;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      font-size: 17px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    .app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-2) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      background: white;
+    }
+    .top-bar__brand {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    .top-bar__progress {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--color-text-muted);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px var(--space-1);
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: var(--radius);
+      border: 1px solid var(--color-warning);
+      background: white;
+      color: var(--color-warning);
+    }
+    .context-header {
+      padding: var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      background: white;
+    }
+    .context-header__headline {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin: 0 0 var(--space-1);
+      max-width: 720px;
+    }
+    .context-header__subtext {
+      font-family: var(--font-sans);
+      font-size: 17px;
+      color: var(--color-text-muted);
+      margin: 0;
+      max-width: 720px;
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
+      gap: var(--space-3);
+      padding: var(--space-4);
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .primary-workspace { flex: 0 0 70%; min-width: 0; }
+    .secondary-panel { flex: 0 0 30%; min-width: 0; }
+    .card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: var(--space-3);
+      transition: border-color var(--transition);
+    }
+    .card:hover { border-color: var(--color-text-subtle); }
+    .card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 var(--space-2);
+    }
+    .card p { margin: 0 0 var(--space-2); }
+    .card-buttons { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-top: var(--space-2); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-1) var(--space-2);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .btn-primary {
+      background: var(--color-accent);
+      color: white;
+      border: 1px solid var(--color-accent);
+    }
+    .btn-primary:hover { background: #6d0000; border-color: #6d0000; }
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+    .btn-secondary:hover { border-color: var(--color-text-muted); background: rgba(0,0,0,0.02); }
+    .input {
+      display: block;
+      width: 100%;
+      padding: var(--space-1) var(--space-2);
+      font-family: var(--font-sans);
+      font-size: 17px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      margin-bottom: var(--space-2);
+      transition: border-color var(--transition);
+    }
+    .input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+    .secondary-panel__section { margin-bottom: var(--space-4); }
+    .secondary-panel__label {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      margin: 0 0 var(--space-1);
+    }
+    .secondary-panel__text {
+      font-size: 15px;
+      color: var(--color-text);
+      margin: 0 0 var(--space-2);
+    }
+    .prompt-box {
+      display: block;
+      width: 100%;
+      font-family: ui-monospace, Monaco, monospace;
+      font-size: 15px;
+      line-height: 1.7;
+      padding: var(--space-2);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      resize: none;
+      min-height: 120px;
+      margin-bottom: var(--space-2);
+    }
+    .prompt-box:focus { outline: none; border-color: var(--color-accent); }
+    .proof-footer {
+      padding: var(--space-3) var(--space-4);
+      border-top: 1px solid var(--color-border);
+      background: white;
+    }
+    .proof-footer__title {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      margin: 0 0 var(--space-2);
+    }
+    .proof-footer__checklist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-4);
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .proof-footer__item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: 15px;
+      color: var(--color-text-muted);
+    }
+    .proof-footer__item--complete { color: var(--color-success); }
+    .proof-footer__checkbox {
+      width: 18px;
+      height: 18px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: white;
+    }
+    .proof-footer__item--complete .proof-footer__checkbox {
+      border-color: var(--color-success);
+      background: var(--color-success);
+    }
+    .proof-footer__item--complete .proof-footer__checkbox::after {
+      content: '✓';
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="top-bar">
+      <div class="top-bar__brand">Job Notification App</div>
+      <div class="top-bar__progress">Step 1 / 4</div>
+      <span class="badge">In Progress</span>
+    </header>
+
+    <div class="context-header">
+      <h1 class="context-header__headline">Design System Foundation</h1>
+      <p class="context-header__subtext">A calm, intentional foundation for the Job Notification App. Ready for product development.</p>
+    </div>
+
+    <main class="main-content">
+      <div class="primary-workspace">
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div class="card">
+            <h3>Primary Workspace</h3>
+            <p>Clean cards with predictable components. Subtle borders, no heavy shadows. Content sits here with intentional whitespace.</p>
+            <div class="card-buttons">
+              <button class="btn btn-primary">Primary Action</button>
+              <button class="btn btn-secondary">Secondary</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Form Elements</h3>
+            <input type="text" class="input" placeholder="Enter value...">
+            <input type="text" class="input" placeholder="Another input" disabled>
+          </div>
+        </div>
+      </div>
+
+      <aside class="secondary-panel">
+        <div class="secondary-panel__section">
+          <p class="secondary-panel__label">Step explanation</p>
+          <p class="secondary-panel__text">This panel holds step guidance, copyable prompts, and supporting actions.</p>
+          <textarea class="prompt-box" readonly>Example copyable prompt text. Select and copy with Ctrl+C.</textarea>
+          <button class="btn btn-secondary" onclick="copyPrompt()">Copy</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="proof-footer">
+      <p class="proof-footer__title">Proof</p>
+      <ul class="proof-footer__checklist">
+        <li class="proof-footer__item proof-footer__item--complete">
+          <span class="proof-footer__checkbox"></span>
+          UI Built
+        </li>
+        <li class="proof-footer__item">
+          <span class="proof-footer__checkbox"></span>
+          Logic Working
+        </li>
+        <li class="proof-footer__item">
+          <span class="proof-footer__checkbox"></span>
+          Test Passed
+        </li>
+        <li class="proof-footer__item">
+          <span class="proof-footer__checkbox"></span>
+          Deployed
+        </li>
+      </ul>
+    </footer>
+  </div>
+
+  <script>
+    function copyPrompt() {
+      var box = document.querySelector('.prompt-box');
+      box.select();
+      box.setSelectionRange(0, 99999);
+      var ok = false;
+      try {
+        ok = document.execCommand('copy');
+      } catch (e) {}
+      if (!ok) {
+        try {
+          navigator.clipboard.writeText(box.value);
+          ok = true;
+        } catch (e2) {}
+      }
+      var btn = document.querySelector('.secondary-panel .btn-secondary');
+      var orig = btn.textContent;
+      btn.textContent = ok ? 'Copied' : 'Select and Ctrl+C';
+      setTimeout(function() { btn.textContent = orig; }, 2000);
+    }
+  </script>
+</body>
+</html>
