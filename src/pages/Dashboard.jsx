@@ -7,7 +7,7 @@ import { getPreferences, hasPreferences } from '../utils/preferences';
 import { computeMatchScore } from '../utils/matchScore';
 import { extractSalaryValue } from '../utils/salary';
 import { getTestStatuses, allTestsPassed } from '../utils/testChecklist';
-import { TopBar, ContextHeader, MainContent, PrimaryWorkspace, SecondaryPanel, SecondaryPanelSection, ProofFooter } from '../design-system';
+import { TopBar, ContextHeader, MainContent, PrimaryWorkspace, SecondaryPanel, SecondaryPanelSection } from '../design-system';
 import FilterBar from '../components/FilterBar';
 import JobCard from '../components/JobCard';
 import JobModal from '../components/JobModal';
@@ -120,16 +120,9 @@ export default function Dashboard() {
     ? "No roles match your criteria. Adjust filters or lower threshold."
     : "No jobs match your search.";
 
-  const testsPassed = allTestsPassed(getTestStatuses());
-
   return (
     <div className="app-shell">
-      <TopBar
-        progress="Step 3 / 4"
-        status="In Progress"
-        statusVariant="warning"
-        showNav
-      />
+      <TopBar showNav />
       <ContextHeader
         headline="Job Listings"
         subtext="Browse and save jobs that match your profile. Use filters to narrow results."
@@ -191,14 +184,6 @@ export default function Dashboard() {
           </SecondaryPanelSection>
         </SecondaryPanel>
       </MainContent>
-      <ProofFooter
-        items={[
-          { id: 'ui', label: 'UI Built', complete: true },
-          { id: 'logic', label: 'Logic Working', complete: true },
-          { id: 'test', label: 'Test Passed', complete: testsPassed },
-          { id: 'deploy', label: 'Deployed', complete: false },
-        ]}
-      />
       {modalJob && (
         <JobModal job={modalJob} onClose={() => setModalJob(null)} />
       )}
